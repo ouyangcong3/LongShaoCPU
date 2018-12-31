@@ -1,0 +1,47 @@
+程序的运行方式为,机器从内存卡(TF/SD)加载程序文件到内存运行,程序文件为编译器生成的 "ROM.bin"
+
+
+先连接内存卡:
+
+内存卡接到 "KC_LS1u_SPI_C" 和 "KC_LS1u_SPI_D" 这两片PCB上; 
+
+内存卡是接到J7接口. 
+内存卡的 "VCC" 接 "3V" 
+内存卡的 "GND" 接 "GND" 
+内存卡的 "MISO" 接 "SI" 
+内存卡的 "MOSI" 接 "SO" 
+内存卡的 "SCK" 接 "SCK" 
+内存卡的 "CS" 接 "S_CS0" 
+
+
+
+程序使用说明:
+
+
+1. 在内存卡根目录新建两个txt文本, "KC_LS1u_boot_0.txt"  和 "KC_LS1u_boot_1.txt" , 内存卡文件系统格式为FAT32;
+
+2. 编辑 "KC_LS1u_boot_0.txt" 这个引导文本, 文本存放的是程序文件的路径, 路径格式为, 设备名称:文件路径, 比如, spi_device0:ROM.bin,  spi_device0的意思是选择SPI设备0(硬件SPI控制器上面有8根片选信号线, 接"S_CS0" 片选信号的设备会被选中),  ROM.bin就是根目录下的ROM.bin二进制程序文件; 
+
+3. 插上内存卡, 通电开机, 这时机器会把 "ROM.bin" 这个文件加载到内存里面并运行; 
+
+
+
+
+在这里, SPI设备0(spi_device0:)  和 SPI设备1(spi_device1:) 作为开机引导的对象,也就是可以接两张内存卡, 两张内存卡的片选信号(CS)分别接硬件SPI控制器的 "S_CS0" 片选信号 和 "S_CS1" 片选信号; 
+  
+txt引导文本的路径可以写成如下几种格式,文件名称或文件夹名称可以有空格,但是路径前后不能有空格或换行. 
+spi_device0:ROM.bin         指定从SPI设备0加载根目录的程序文件 
+spi_device1:ROM.bin         指定从SPI设备1加载根目录的程序文件 
+spi_device_:ROM.bin         机器会从当前设备加载根目录的程序文件 
+spi_device0:xx\xxx\xxx\xsads\xs\6768678\67867867fdg\ad\ROM.bin    指定从SPI设备0加载指定目录的程序文件 
+spi_device1:xx\xxx\xxx\xsads\xs\6768678\67867867fdg\ad\ROM.bin    指定从SPI设备1加载指定目录的程序文件 
+spi_device_:xx\xxx\xxx\xsads\xs\6768678\67867867fdg\ad\ROM.bin    机器会从当前设备加载指定目录的程序文件 
+  
+在有两张内存卡的情况下,开机的时候机器会先搜索SPI设备0根目录下的txt引导文本,如果没有找到文本,这时会搜索SPI设备1, 如果SPI设备1的txt引导文本里面路径指定的是SPI设备0(spi_device0:), 那么机器会从SPI设备0搜索程序文件, 也就是引导文本在SPI设备1,程序文件在SPI设备0; 
+如果txt引导文本里的设备名称写成 "spi_device_:" , 这时机器只会搜索存放这个引导文本的设备, 也就是引导文本在SPI设备0, 机器就在SPI设备0搜索程序文件, 文本在SPI设备1,机器就在SPI设备1搜索程序文件; 
+
+
+注意: 引导文本内容的大小不能超过512字节
+
+
+现在把 "KC_LS1u_boot_0.txt" 这个引导文本的内容改为 "spi_device0:ROM.bin" , 然后把编译器生成的 "ROM.bin" 二进制程序文件复制到根目录下, 插上内存卡, 开机就OK了

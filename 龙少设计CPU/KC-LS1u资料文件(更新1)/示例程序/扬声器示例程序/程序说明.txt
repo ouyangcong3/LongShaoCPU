@@ -1,0 +1,5 @@
+测试扬声器.
+
+扬声器连接定义:
+
+/* 扬声器接 "KC_LS1u_CLK_RST_IO_PS" PCB 的"Speaker"接口*/

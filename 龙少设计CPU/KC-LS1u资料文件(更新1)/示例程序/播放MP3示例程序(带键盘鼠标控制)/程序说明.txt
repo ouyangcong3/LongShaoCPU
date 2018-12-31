@@ -1,0 +1,60 @@
+内存卡连接定义:
+
+/*------内存卡接 "KC_LS1u_SPI_C" 和 "KC_LS1u_SPI_D" PCB的J7接口
+
+内存卡是接到J7接口. 
+内存卡的 "VCC" 接 "3V" 
+内存卡的 "GND" 接 "GND" 
+内存卡的 "MISO" 接 "SI" 
+内存卡的 "MOSI" 接 "SO" 
+内存卡的 "SCK" 接 "SCK" 
+内存卡的 "CS" 接 "S_CS0"
+
+"S_CS0" ~ "S_CS7" ,分别为设备0到设备7
+这里的8个SPI设备都共用SCK、SI、SO、VCC、GND这5条线,不同的是J7接口是3.3V,J8接口是5V
+
+*/
+
+
+CH375连接定义:
+
+/*----CH375 接 "KC_LS1u_CLK_RST_IO_PS" PCB上的J5、J6、J7、J8接口;
+
+CH375的VCC和GND电源线接J7或J8接口上的VCC和GND;
+CH375的D0~D7数据线接J7或J8接口上的D0~D7;
+CH375的WR和RD读写线接J7或J8接口上的WR和RD;
+CH375的A0线接J7或J8接口上的A0;
+CH375的CS片选线J5或J6接口上的CS0;
+CH375的INT中断信号线接J5或J6接口上的IT0;
+
+CS0~CS7,为设备0~设备8;
+IT0~IT7,为设备0~设备8;
+
+这里程序支持4片CH375, 也就是CS0~CS3和IT0~IT3可以接4片CH375, 4片CH375的D0~D7、WR、RD、A0、VCC、GND共用, 如果不够可以扩展出来;
+
+*/
+
+
+VS1003连接定义:
+
+/*------VS1003接 "KC_LS1u_SPI_C" 和 "KC_LS1u_SPI_D" 和 "KC_LS1u_CT&VGA_CS" PCB的J8接口
+
+VS1003是接到J8接口. 
+
+VS1003的 "VCC" 接 "5V" 
+VS1003的 "GND" 接 "GND" 
+VS1003的 "XCS" 接 "S_CS2"
+VS1003的 "XDCS" 接 "S_CS3"
+VS1003的 "XRST" 接 "RST"
+VS1003的 "DREQ" 接 "S_INT1"
+
+VS1003的 "MISO" 接 "BI3" ,位于"KC_LS1u_CT&VGA_CS" PCB上
+VS1003的 "MOSI" 接 "RA"  ,位于"KC_LS1u_CT&VGA_CS" PCB上, PCB上插针没标有丝印, 这根线是在J7J8接口上, 最靠近J5J6接口的那根线,和J5J6接口的"RA"相通
+VS1003的 "SCK" 接 "BO3"  ,位于"KC_LS1u_CT&VGA_CS" PCB上
+
+*/
+
+
+需要把 "音乐文件" 文件夹拷贝到内存卡的根目录下.
+
+程序功能: 播放MP3
